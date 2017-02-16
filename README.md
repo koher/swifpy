@@ -1,6 +1,6 @@
 # kollect
 
-_kollect_ is a collection library for Python 3.6+ which has similar API to Swift and Kotlin.
+_kollect_ is a collection library for Python 3.6+ which has similar APIs to Swift's.
 
 ```python
 import kollect as k
@@ -25,8 +25,8 @@ import kollect as k
 
 numbers: k.List[int] = k.list(2, 3, 5)
 
-second: int = numbers[1]      # 3
-length: int = numbers.length  # 3
+second: int = numbers[1]    # 3
+count: int = numbers.count  # 3
 
 squared: k.List[int] = numbers.map(lambda x: x * x)            # [4, 9, 25]
 odd: k.List[int] = numbers.filter(lambda x: x % 2 != 0)        # [3, 5]
@@ -36,8 +36,27 @@ twice: k.List[int] = numbers.flat_map(lambda x: k.list(x, x))  # [2, 2, 3, 3, 5,
 first: k.Optional[int] = numbers.first  # Optional(2)
 third: k.Optional[int] = numbers.last   # Optional(5)
 
-for x in numbers:
-    print(x)
+for number in numbers:
+    print(number)
+```
+
+### Dict
+
+```python
+import kollect as k
+
+dictionary = k.dict(('a', 2), ('b', 3), ('c', 5))
+# dictionary = k.Dict({'a': 2, 'b': 3, 'c': 5})  # is also available
+
+a: k.Optional[int] = dictionary['a']  # Optional(2)
+dictionary['d'] = 7
+count: int = dictionary.count  # 4
+
+for key, value in dictionary:
+    print("%s -> %d" % (key, value))
+
+self.assertEqual(a, k.some(2))
+self.assertEqual(count, 4)
 ```
 
 ### Optional
