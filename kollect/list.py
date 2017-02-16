@@ -7,7 +7,7 @@ T = tp.TypeVar('T')
 U = tp.TypeVar('U')
 
 
-class List(tp.Generic[T]):
+class List(tp.Generic[T], tp.Iterable[T]):
     def __init__(self, values: tp.Iterable[T]) -> None:
         self._values: tp.List[T] = py.list(values)
 
@@ -27,10 +27,25 @@ class List(tp.Generic[T]):
         for value in self._values:
             body(value)
 
+    def enumerated(self) -> 'List[tp.Tuple[int, T]]':
+        return List(enumerate(self._values))
+
     def append(self, value: T) -> None:
         self._values.append(value)
 
-    def get(self, index: int) -> Optional[T]:
+    def insert(self, value: T, index: int) -> None:
+        self._values.insert(index, value)
+
+    def pop_last(self) -> Optional(T):
+        return self._values.pop()
+
+    def remove(self, index: int) -> T:
+        return self._values.pop(index)
+
+    def remove_all(self) -> None:
+        self._values.clear()
+
+    def _get(self, index: int) -> Optional[T]:
         try:
             return Optional(self._values[index])
         except IndexError:
@@ -38,14 +53,14 @@ class List(tp.Generic[T]):
 
     @property
     def first(self) -> Optional[T]:
-        return self.get(0)
+        return self._get(0)
 
     @property
     def last(self) -> Optional[T]:
-        return self.get(-1)
+        return self._get(-1)
 
     @property
-    def length(self) -> int:
+    def count(self) -> int:
         return self.__len__()
 
     def __iter__(self) -> tp.Iterator[T]:
@@ -55,7 +70,7 @@ class List(tp.Generic[T]):
     def __getitem__(self, index: int) -> T: pass
 
     @tp.overload
-    def __getitem__(self, index: slice) -> 'List[T]': pass
+    def __getitem__(self, values: slice) -> 'List[T]': pass
 
     def __getitem__(self, key):
         if isinstance(key, int):
@@ -63,7 +78,21 @@ class List(tp.Generic[T]):
         elif isinstance(key, slice):
             return List(self._values[key])
         else:
-            raise Exception('Never reaches here.')
+            raise IndexError(str(key))
+
+    @tp.overload
+    def __setitem__(self, index: int, value: T) -> None: pass
+
+    @tp.overload
+    def __setitem__(self, range: slice, values: 'List[T]') -> None: pass
+
+    def __setitem__(self, key, value):
+        if isinstance(key, int):
+            self._values[key] = value
+        elif isinstance(key, slice):
+            self._values[slice.start:slice.stop] = value
+        else:
+            raise IndexError(str(key))
 
     def __len__(self) -> int:
         return len(self._values)

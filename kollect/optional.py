@@ -4,7 +4,7 @@ T = tp.TypeVar('T')
 U = tp.TypeVar('U')
 
 
-class Optional(tp.Generic[T]):
+class Optional(tp.Generic[T], tp.Iterable[T]):
     def __init__(self, value: tp.Optional[T]) -> None:
         self._value: tp.Optional[T] = value
 
@@ -41,7 +41,7 @@ class Optional(tp.Generic[T]):
             return body(self._value)
 
     @property
-    def length(self) -> int:
+    def count(self) -> int:
         return self.__len__()
 
     def __iter__(self) -> tp.Iterator[T]:

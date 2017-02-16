@@ -1,6 +1,7 @@
 from .context import kollect as k
 import unittest
 
+
 class TestOptional(unittest.TestCase):
     def test_sample(self):
         a: k.Optional[int] = k.some(2)
