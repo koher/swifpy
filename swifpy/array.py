@@ -1,7 +1,7 @@
 import typing as tp
 import functools as ft
 import builtins as py
-from .optional import Optional, _optional
+from .optional import Optional, optional
 
 T = tp.TypeVar('T')
 U = tp.TypeVar('U')
@@ -37,7 +37,7 @@ class Array(tp.Generic[T], tp.Iterable[T]):
         self._values.insert(index, value)
 
     def pop_last(self) -> Optional[T]:
-        return _optional(self._values.pop())
+        return optional(self._values.pop())
 
     def remove(self, index: int) -> T:
         return self._values.pop(index)
@@ -47,9 +47,9 @@ class Array(tp.Generic[T], tp.Iterable[T]):
 
     def __get(self, index: int) -> Optional[T]:
         try:
-            return _optional(self._values[index])
+            return optional(self._values[index])
         except IndexError:
-            return _optional(None)
+            return optional(None)
 
     @property
     def first(self) -> Optional[T]:

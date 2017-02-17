@@ -72,7 +72,7 @@ class NilError(Exception):
         super(NilError, self).__init__('Unexpectedly found none while unwrapping an Optional value.')
 
 
-def _optional(value: tp.Optional[T]) -> Optional[T]:
+def optional(value: tp.Optional[T]) -> Optional[T]:
     if value:
         return Some(value)
     else:
