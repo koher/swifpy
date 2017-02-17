@@ -13,7 +13,8 @@ class Some(tp.Generic[T]):
     def value(self) -> T:
         return self._value
 
-    def force_unwrapping(self) -> T:
+    @property
+    def x(self) -> T:  # `!` in Swift
         return self._value
 
     def map(self, transform: tp.Callable[[T], U]) -> 'Some[U]':
@@ -43,7 +44,8 @@ class Nil:
     def value(self) -> None:
         return None
 
-    def force_unwrapping(self) -> T:
+    @property
+    def x(self) -> T:
         raise NilError()
 
     def map(self, transform: tp.Callable[[T], U]) -> 'Nil':

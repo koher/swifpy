@@ -19,9 +19,9 @@ class TestOptional(unittest.TestCase):
         sum1: Optional[Int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
         sum2: Optional[Int] = a.flat_map(lambda x: n.map(lambda y: x + y))  # Optional()
 
-        unwrapped = a.force_unwrapping()
+        unwrapped: Int = a.x  # `!` in Swift: `x` of an e*x*clamation mark
         try:
-            _ = n.force_unwrapping()  # UnwrappingError
+            _ = n.x  # NilError
             self.fail('Never reaches here.')
         except NilError:
             print('Reaches here.')
