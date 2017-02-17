@@ -41,7 +41,7 @@ class Nil:
         return None
 
     def force_unwrapping(self) -> T:
-        raise UnwrappingError()
+        raise NilError()
 
     def map(self, transform: tp.Callable[[T], U]) -> 'Nil':
         return self
@@ -59,9 +59,9 @@ class Nil:
 Optional = tp.Union[Some[T], Nil]
 
 
-class UnwrappingError(Exception):
+class NilError(Exception):
     def __init__(self):
-        super(UnwrappingError, self).__init__('Unexpectedly found none while unwrapping an Optional value.')
+        super(NilError, self).__init__('Unexpectedly found none while unwrapping an Optional value.')
 
 
 def _optional(value: tp.Optional[T]) -> Optional[T]:

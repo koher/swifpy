@@ -81,10 +81,10 @@ class Array(tp.Generic[T], tp.Iterable[T]):
             raise IndexError(str(key))
 
     @tp.overload
-    def __setitem__(self, index: int, value: T) -> None: pass
+    def __setitem__(self, i: int, value: T) -> None: pass
 
     @tp.overload
-    def __setitem__(self, range: slice, values: 'Array[T]') -> None: pass
+    def __setitem__(self, s: slice, values: 'Array[T]') -> None: pass
 
     def __setitem__(self, key, value):
         if isinstance(key, int):

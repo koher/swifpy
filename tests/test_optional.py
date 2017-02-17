@@ -1,4 +1,4 @@
-from swifpy import Int, Nil, Optional, Some, UnwrappingError
+from swifpy import Int, Nil, Optional, Some, NilError
 import unittest
 
 
@@ -23,7 +23,7 @@ class TestOptional(unittest.TestCase):
         try:
             _ = n.force_unwrapping()  # UnwrappingError
             self.fail('Never reaches here.')
-        except UnwrappingError:
+        except NilError:
             print('Reaches here.')
 
         self.assertEqual(squared1, Some(4))
