@@ -9,9 +9,7 @@ array: Array[Int] = Array([2, 3, 5])
 squared: Array[Int] = array.map(lambda x: x * x)  # [4, 9, 25]
 count: Int = array.count  # 3
 
-dictionary: Dictionary[String, Int] = Dictionary({
-    'a': 2, 'b': 3, 'c': 5
-})
+dictionary: Dictionary[String, Int] = Dictionary({'a': 2, 'b': 3, 'c': 5})
 a: Optional[Int] = dictionary['a']  # Optional(2)
 b: Optional[Int] = dictionary['b']  # Optional(3)
 
@@ -81,12 +79,12 @@ squared2: Optional[Int] = n.map(lambda x: x * x)                    # Optional()
 sum1: Optional[Int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
 sum2: Optional[Int] = a.flat_map(lambda x: n.map(lambda y: x + y))  # Optional()
 
-unwrapped = a.force_unwrapping()
-try:
-    _ = n.force_unwrapping()  # UnwrappingError
-    self.fail('Never reaches here.')
-except NilError:
-    print('Reaches here.')
+unwrapped: Int = a.x  # `!` in Swift: `x` of an e*x*clamation mark
+_ = n.x  # NilError
+
+# `??` in Swift: `q` of a *q*uestion mark
+coalesced1: Int = a.qq(0)  ## 2
+coalesced2: Int = n.qq(0)  ## 0
 ```
 
 ## License
