@@ -8,9 +8,7 @@ class TestSample(unittest.TestCase):
         squared: Array[Int] = array.map(lambda x: x * x)  # [4, 9, 25]
         count: Int = array.count  # 3
 
-        dictionary: Dictionary[String, Int] = Dictionary({
-            'a': 2, 'b': 3, 'c': 5
-        })
+        dictionary: Dictionary[String, Int] = Dictionary({'a': 2, 'b': 3, 'c': 5})
         a: Optional[Int] = dictionary['a']  # Optional(2)
         b: Optional[Int] = dictionary['b']  # Optional(3)
 
