@@ -6,7 +6,7 @@ K = tp.TypeVar('K')
 V = tp.TypeVar('V')
 
 
-class Dict(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
+class Dictionary(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
     def __init__(self, entries: tp.Dict[K, V]) -> None:
         self._entries: tp.Dict[K, V] = py.dict(entries)
 
@@ -31,5 +31,5 @@ class Dict(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
         return self._entries.items().__iter__()
 
 
-def dict(*entries: tp.Tuple[K, V]) -> Dict[K, V]:
-    return Dict(py.dict(entries))
+def dict(*entries: tp.Tuple[K, V]) -> Dictionary[K, V]:
+    return Dictionary(py.dict(entries))

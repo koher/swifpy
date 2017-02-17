@@ -2,7 +2,7 @@ from .context import swifpy as k
 import unittest
 
 
-class TestDict(unittest.TestCase):
+class TestDictionary(unittest.TestCase):
     def test_sample(self):
         dictionary = k.dict(('a', 2), ('b', 3), ('c', 5))
         # dictionary = k.Dict({'a': 2, 'b': 3, 'c': 5})  # is also available
