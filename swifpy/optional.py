@@ -23,7 +23,7 @@ class Some(tp.Generic[T]):
         return transform(self._value)
 
     def __eq__(self, other: 'Optional[T]') -> Bool:
-        if other:
+        if isinstance(other, Some):
             return self._value == other._value
         else:
             return False
