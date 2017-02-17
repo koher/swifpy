@@ -1,4 +1,4 @@
-from .context import kollect as k
+from .context import swifpy as k
 import unittest
 
 
