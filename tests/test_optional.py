@@ -6,7 +6,7 @@ class TestOptional(unittest.TestCase):
     def test_sample(self):
         a: Optional[Int] = Some(2)
         b: Optional[Int] = Some(3)
-        n: Optional[Int] = Nil()
+        n: Optional[Int] = Nil
 
         if a:
             print('Reaches here.')
@@ -27,7 +27,7 @@ class TestOptional(unittest.TestCase):
             print('Reaches here.')
 
         self.assertEqual(squared1, Some(4))
-        self.assertEqual(squared2, Nil())
+        self.assertEqual(squared2, Nil)
         self.assertEqual(sum1, Some(5))
-        self.assertEqual(sum2, Nil())
+        self.assertEqual(sum2, Nil)
         self.assertEqual(unwrapped, 2)

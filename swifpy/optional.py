@@ -23,10 +23,13 @@ class Some(tp.Generic[T]):
         return transform(self._value)
 
     def __eq__(self, other: 'Optional[T]') -> Bool:
-        if isinstance(other, Nil):
-            return False
-        else:
+        if other:
             return self._value == other._value
+        else:
+            return False
+
+    def __bool__(self):
+        return True
 
     def __str__(self) -> String:
         return 'Optional(%s)' % self._value
@@ -50,13 +53,18 @@ class Nil:
         return self
 
     def __eq__(self, other: 'Optional[T]') -> Bool:
-        return isinstance(other, Nil)
+        return not bool(other)
+
+    def __bool__(self):
+        return False
 
     def __str__(self) -> String:
         return 'Nil'
 
 
 Optional = tp.Union[Some[T], Nil]
+
+Nil = Nil()
 
 
 class NilError(Exception):
