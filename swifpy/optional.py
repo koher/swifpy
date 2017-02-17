@@ -1,69 +1,62 @@
 import typing as tp
+from .types import Bool, String
 
 T = tp.TypeVar('T')
 U = tp.TypeVar('U')
 
 
-class Optional(tp.Generic[T], tp.Iterable[T]):
-    def __init__(self, value: tp.Optional[T]) -> None:
-        self._value: tp.Optional[T] = value
+class Some(tp.Generic[T]):
+    def __init__(self, value: T) -> None:
+        self._value = value
 
     @property
-    def value(self) -> tp.Optional[T]:
+    def value(self) -> T:
         return self._value
 
-    @property
-    def unwrapped(self) -> T:
-        if not self._value:
-            raise UnwrappingError()
+    def force_unwrapping(self) -> T:
         return self._value
 
-    def map(self, transform: tp.Callable[[T], U]) -> 'Optional[U]':
-        if self._value:
-            return Optional(transform(self._value))
-        else:
-            return Optional(None)
+    def map(self, transform: tp.Callable[[T], U]) -> 'Some[U]':
+        return Some(transform(self._value))
 
     def flat_map(self, transform: tp.Callable[[T], 'Optional[U]']) -> 'Optional[U]':
-        if self._value:
-            return transform(self._value)
-        else:
-            return Optional(None)
+        return transform(self._value)
 
-    def reduce(self, initial: U, combine: tp.Callable[[U, T], U]):
-        if not self._value:
-            return initial
+    def __eq__(self, other: 'Optional[T]') -> Bool:
+        if isinstance(other, Nil):
+            return False
         else:
-            return combine(initial, self._value)
+            return self._value == other._value
 
-    def for_each(self, body: tp.Callable[[T], None]) -> None:
-        if self._value:
-            return body(self._value)
+    def __str__(self) -> String:
+        return 'Optional(%s)' % self._value
+
+
+class Nil:
+    def __init__(self):
+        pass
 
     @property
-    def count(self) -> int:
-        return self.__len__()
+    def value(self) -> None:
+        return None
 
-    def __iter__(self) -> tp.Iterator[T]:
-        if self._value:
-            return [self._value].__iter__()
-        else:
-            return [].__iter__()
+    def force_unwrapping(self) -> T:
+        raise UnwrappingError()
 
-    def __len__(self) -> int:
-        if self._value:
-            return 1
-        else:
-            return 0
+    def map(self, transform: tp.Callable[[T], U]) -> 'Nil':
+        return self
 
-    def __eq__(self, other: 'Optional[T]') -> bool:
-        return self._value == other._value
+    def flat_map(self, transform: tp.Callable[[T], 'Optional[U]']) -> 'Nil':
+        return self
 
-    def __str__(self) -> str:
-        if self._value:
-            return 'Optional(%s)' % self._value
-        else:
-            return 'Optional()'
+    def __eq__(self, other: 'Optional[T]') -> Bool:
+        return isinstance(other, Nil)
+
+    def __str__(self) -> String:
+        return 'Nil'
+
+
+Optional = tp.Union[Some[T], Nil]
 
 
 class UnwrappingError(Exception):
@@ -71,9 +64,8 @@ class UnwrappingError(Exception):
         super(UnwrappingError, self).__init__('Unexpectedly found none while unwrapping an Optional value.')
 
 
-def some(value: T) -> Optional[T]:
-    return Optional(value)
-
-
-def none() -> Optional[T]:
-    return Optional(None)
+def _optional(value: tp.Optional[T]) -> Optional[T]:
+    if value:
+        return Some(value)
+    else:
+        return Nil()

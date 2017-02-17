@@ -1,6 +1,6 @@
 import typing as tp
 import builtins as py
-from .optional import Optional
+from .optional import Optional, _optional
 
 K = tp.TypeVar('K')
 V = tp.TypeVar('V')
@@ -11,7 +11,7 @@ class Dictionary(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
         self._entries: tp.Dict[K, V] = py.dict(entries)
 
     def __getitem__(self, key: K) -> Optional[V]:
-        return Optional(self._entries.get(key))
+        return _optional(self._entries.get(key))
 
     def __setitem__(self, key: K, value: V) -> None:
         self._entries[key] = value

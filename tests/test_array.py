@@ -1,4 +1,4 @@
-from swifpy import Array, Int, Optional
+from swifpy import Array, Int, Optional, Some
 import unittest
 
 
@@ -28,5 +28,5 @@ class TestArray(unittest.TestCase):
         self.assertEqual(sum, 10)
         self.assertEqual(twice, Array([2, 2, 3, 3, 5, 5]))
 
-        self.assertEqual(first, Optional(2))
-        self.assertEqual(third, Optional(5))
+        self.assertEqual(first, Some(2))
+        self.assertEqual(third, Some(5))

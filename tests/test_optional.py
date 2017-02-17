@@ -1,12 +1,12 @@
-from swifpy import Int, Optional, UnwrappingError
+from swifpy import Int, Nil, Optional, Some, UnwrappingError
 import unittest
 
 
 class TestOptional(unittest.TestCase):
     def test_sample(self):
-        a: Optional[Int] = Optional(2)
-        b: Optional[Int] = Optional(3)
-        n: Optional[Int] = Optional(None)
+        a: Optional[Int] = Some(2)
+        b: Optional[Int] = Some(3)
+        n: Optional[Int] = Nil()
 
         if a:
             print('Reaches here.')
@@ -19,15 +19,15 @@ class TestOptional(unittest.TestCase):
         sum1: Optional[Int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
         sum2: Optional[Int] = a.flat_map(lambda x: n.map(lambda y: x + y))  # Optional()
 
-        unwrapped = a.unwrapped
+        unwrapped = a.force_unwrapping()
         try:
-            _ = n.unwrapped  # UnwrappingError
+            _ = n.force_unwrapping()  # UnwrappingError
             self.fail('Never reaches here.')
         except UnwrappingError:
             print('Reaches here.')
 
-        self.assertEqual(squared1, Optional(4))
-        self.assertEqual(squared2, Optional(None))
-        self.assertEqual(sum1, Optional(5))
-        self.assertEqual(sum2, Optional(None))
+        self.assertEqual(squared1, Some(4))
+        self.assertEqual(squared2, Nil())
+        self.assertEqual(sum1, Some(5))
+        self.assertEqual(sum2, Nil())
         self.assertEqual(unwrapped, 2)

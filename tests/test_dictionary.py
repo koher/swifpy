@@ -1,4 +1,4 @@
-from swifpy import Dictionary, Int, Optional, String
+from swifpy import Dictionary, Int, Optional, Some, String
 import unittest
 
 
@@ -13,5 +13,5 @@ class TestDictionary(unittest.TestCase):
         for key, value in dictionary:
             print("%s -> %d" % (key, value))
 
-        self.assertEqual(a, Optional(2))
+        self.assertEqual(a, Some(2))
         self.assertEqual(count, 4)
