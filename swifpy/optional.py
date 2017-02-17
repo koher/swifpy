@@ -76,4 +76,4 @@ def optional(value: tp.Optional[T]) -> Optional[T]:
     if value:
         return Some(value)
     else:
-        return Nil()
+        return Nil
