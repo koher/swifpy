@@ -1,21 +1,21 @@
-from swifpy import Array, Optional
+from swifpy import Array, Int, Optional
 import unittest
 
 
 class TestArray(unittest.TestCase):
     def test_sample(self):
-        numbers: Array[int] = Array([2, 3, 5])
+        numbers: Array[Int] = Array([2, 3, 5])
 
-        second: int = numbers[1]    # 3
-        count: int = numbers.count  # 3
+        second: Int = numbers[1]    # 3
+        count: Int = numbers.count  # 3
 
-        squared: Array[int] = numbers.map(lambda x: x * x)            # [4, 9, 25]
-        odd: Array[int] = numbers.filter(lambda x: x % 2 != 0)        # [3, 5]
-        sum: Array[int] = numbers.reduce(0, lambda r, x: r + x)       # 10
-        twice: Array[int] = numbers.flat_map(lambda x: Array([x, x]))  # [2, 2, 3, 3, 5, 5]
+        squared: Array[Int] = numbers.map(lambda x: x * x)             # [4, 9, 25]
+        odd: Array[Int] = numbers.filter(lambda x: x % 2 != 0)         # [3, 5]
+        sum: Array[Int] = numbers.reduce(0, lambda r, x: r + x)        # 10
+        twice: Array[Int] = numbers.flat_map(lambda x: Array([x, x]))  # [2, 2, 3, 3, 5, 5]
 
-        first: Optional[int] = numbers.first  # Optional(2)
-        third: Optional[int] = numbers.last   # Optional(5)
+        first: Optional[Int] = numbers.first  # Optional(2)
+        third: Optional[Int] = numbers.last   # Optional(5)
 
         for number in numbers:
             print(number)

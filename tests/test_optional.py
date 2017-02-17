@@ -1,12 +1,12 @@
-from swifpy import Optional, UnwrappingError
+from swifpy import Int, Optional, UnwrappingError
 import unittest
 
 
 class TestOptional(unittest.TestCase):
     def test_sample(self):
-        a: Optional[int] = Optional(2)
-        b: Optional[int] = Optional(3)
-        n: Optional[int] = Optional(None)
+        a: Optional[Int] = Optional(2)
+        b: Optional[Int] = Optional(3)
+        n: Optional[Int] = Optional(None)
 
         if a:
             print('Reaches here.')
@@ -14,10 +14,10 @@ class TestOptional(unittest.TestCase):
         if not n:
             print('Reaches here.')
 
-        squared1: Optional[int] = a.map(lambda x: x * x)                    # Optional(4)
-        squared2: Optional[int] = n.map(lambda x: x * x)                    # Optional()
-        sum1: Optional[int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
-        sum2: Optional[int] = a.flat_map(lambda x: n.map(lambda y: x + y))  # Optional()
+        squared1: Optional[Int] = a.map(lambda x: x * x)                    # Optional(4)
+        squared2: Optional[Int] = n.map(lambda x: x * x)                    # Optional()
+        sum1: Optional[Int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
+        sum2: Optional[Int] = a.flat_map(lambda x: n.map(lambda y: x + y))  # Optional()
 
         unwrapped = a.unwrapped
         try:
