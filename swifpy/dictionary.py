@@ -29,7 +29,3 @@ class Dictionary(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
 
     def __iter__(self) -> tp.Iterator[tp.Tuple[K, V]]:
         return self._entries.items().__iter__()
-
-
-def dict(*entries: tp.Tuple[K, V]) -> Dictionary[K, V]:
-    return Dictionary(py.dict(entries))

@@ -105,7 +105,3 @@ class Array(tp.Generic[T], tp.Iterable[T]):
 
     def __str__(self) -> str:
         return self._values.__str__()
-
-
-def list(*values: T) -> Array[T]:
-    return Array(values)

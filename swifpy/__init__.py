@@ -1,4 +1,4 @@
-from .array import Array, list
+from .array import Array
 from .optional import Optional, Some, Nil, UnwrappingError
-from .dictionary import Dictionary, dict
+from .dictionary import Dictionary
 from .types import Bool, Int, Float, String
