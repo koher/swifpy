@@ -45,7 +45,7 @@ class Array(tp.Generic[T], tp.Iterable[T]):
     def remove_all(self) -> None:
         self._values.clear()
 
-    def _get(self, index: int) -> Optional[T]:
+    def __get(self, index: int) -> Optional[T]:
         try:
             return _optional(self._values[index])
         except IndexError:
@@ -53,11 +53,11 @@ class Array(tp.Generic[T], tp.Iterable[T]):
 
     @property
     def first(self) -> Optional[T]:
-        return self._get(0)
+        return self.__get(0)
 
     @property
     def last(self) -> Optional[T]:
-        return self._get(-1)
+        return self.__get(-1)
 
     @property
     def count(self) -> int:
