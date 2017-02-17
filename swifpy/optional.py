@@ -17,6 +17,18 @@ class Some(tp.Generic[T]):
     def x(self) -> T:  # `!` in Swift
         return self._value
 
+    @tp.overload
+    def qq(self, value: T) -> T: pass
+
+    @tp.overload
+    def qq(self, value: 'Optional[T]') -> 'Optional[T]': pass
+
+    def qq(self, value):
+        if isinstance(value, (Some, type(Nil))):  # temporary: does not work for nested optional values
+            return self
+        else:
+            return self._value
+
     def map(self, transform: tp.Callable[[T], U]) -> 'Some[U]':
         return Some(transform(self._value))
 
@@ -47,6 +59,15 @@ class Nil:
     @property
     def x(self) -> T:
         raise NilError()
+
+    @tp.overload
+    def qq(self, value: T) -> T: pass
+
+    @tp.overload
+    def qq(self, value: 'Optional[T]') -> 'Optional[T]': pass
+
+    def qq(self, value):
+        return value
 
     def map(self, transform: tp.Callable[[T], U]) -> 'Nil':
         return self

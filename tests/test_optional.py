@@ -26,8 +26,14 @@ class TestOptional(unittest.TestCase):
         except NilError:
             print('Reaches here.')
 
+        # `??` in Swift: `q` of a *q*uestion mark
+        coalesced1: Int = a.qq(0)  ## 2
+        coalesced2: Int = n.qq(0)  ## 0
+
         self.assertEqual(squared1, Some(4))
         self.assertEqual(squared2, Nil)
         self.assertEqual(sum1, Some(5))
         self.assertEqual(sum2, Nil)
         self.assertEqual(unwrapped, 2)
+        self.assertEqual(coalesced1, 2)
+        self.assertEqual(coalesced2, 0)
