@@ -1,72 +1,74 @@
-# kollect
+# Swifpy
 
-_kollect_ is a collection library for Python 3.6+ which has similar APIs to Swift's.
+_Swifpy_ makes Python Swifty. It provides some types which have similar APIs with Swift's.
 
 ```python
-import kollect as k
+from swifpy import Array, Dictionary, Int, Optional, Some, String
 
-numbers: k.List[int] = k.list(2, 3, 5)
+array: Array[Int] = Array([2, 3, 5])
+squared: Array[Int] = array.map(lambda x: x * x)  # [4, 9, 25]
+count: Int = array.count  # 3
 
-second: int = numbers[1]      # 3
-length: int = numbers.length  # 3
+dictionary: Dictionary[String, Int] = Dictionary({
+    'a': 2, 'b': 3, 'c': 5
+})
+a: Optional[Int] = dictionary['a']  # Optional(2)
+b: Optional[Int] = dictionary['b']  # Optional(3)
 
-squared: k.List[int] = numbers.map(lambda x: x * x)            # [4, 9, 25]
-odd: k.List[int] = numbers.filter(lambda x: x % 2 != 0)        # [3, 5]
-sum: k.List[int] = numbers.reduce(0, lambda r, x: r + x)       # 10
-twice: k.List[int] = numbers.flat_map(lambda x: k.list(x, x))  # [2, 2, 3, 3, 5, 5]
+sum: Optional[Int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
 ```
 
 ## Usage
 
-### List
+### Bool, Float, Int, String
+
+They are just type aliases of `bool`, `float`, `int` and `str` respectivly.
+
+### Array
 
 ```python
-import kollect as k
+from swifpy import Array, Int, Optional, Some
 
-numbers: k.List[int] = k.list(2, 3, 5)
+numbers: Array[Int] = Array([2, 3, 5])
 
-second: int = numbers[1]    # 3
-count: int = numbers.count  # 3
+second: Int = numbers[1]    # 3
+count: Int = numbers.count  # 3
 
-squared: k.List[int] = numbers.map(lambda x: x * x)            # [4, 9, 25]
-odd: k.List[int] = numbers.filter(lambda x: x % 2 != 0)        # [3, 5]
-sum: k.List[int] = numbers.reduce(0, lambda r, x: r + x)       # 10
-twice: k.List[int] = numbers.flat_map(lambda x: k.list(x, x))  # [2, 2, 3, 3, 5, 5]
+squared: Array[Int] = numbers.map(lambda x: x * x)             # [4, 9, 25]
+odd: Array[Int] = numbers.filter(lambda x: x % 2 != 0)         # [3, 5]
+sum: Array[Int] = numbers.reduce(0, lambda r, x: r + x)        # 10
+twice: Array[Int] = numbers.flat_map(lambda x: Array([x, x]))  # [2, 2, 3, 3, 5, 5]
 
-first: k.Optional[int] = numbers.first  # Optional(2)
-third: k.Optional[int] = numbers.last   # Optional(5)
+first: Optional[Int] = numbers.first  # Optional(2)
+third: Optional[Int] = numbers.last   # Optional(5)
 
 for number in numbers:
     print(number)
 ```
 
-### Dict
+### Dictionary
 
 ```python
-import kollect as k
+from swifpy import Dictionary, Int, Optional, Some, String
 
-dictionary = k.dict(('a', 2), ('b', 3), ('c', 5))
-# dictionary = k.Dict({'a': 2, 'b': 3, 'c': 5})  # is also available
+dictionary: Dictionary[String, Int] = Dictionary({'a': 2, 'b': 3, 'c': 5})
 
-a: k.Optional[int] = dictionary['a']  # Optional(2)
+a: Optional[Int] = dictionary['a']  # Optional(2)
 dictionary['d'] = 7
-count: int = dictionary.count  # 4
+count: Int = dictionary.count  # 4
 
 for key, value in dictionary:
     print("%s -> %d" % (key, value))
-
-self.assertEqual(a, k.some(2))
-self.assertEqual(count, 4)
 ```
 
 ### Optional
 
 ```python
-import kollect as k
+from swifpy import Int, Nil, Optional, Some, NilError
 
-a: k.Optional[int] = k.some(2)
-b: k.Optional[int] = k.some(3)
-n: k.Optional[int] = k.none()
+a: Optional[Int] = Some(2)
+b: Optional[Int] = Some(3)
+n: Optional[Int] = Nil
 
 if a:
     print('Reaches here.')
@@ -74,15 +76,16 @@ if a:
 if not n:
     print('Reaches here.')
 
-squared1: k.Optional[int] = a.map(lambda x: x * x)                    # Optional(4)
-squared2: k.Optional[int] = n.map(lambda x: x * x)                    # Optional()
-sum1: k.Optional[int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
-sum2: k.Optional[int] = a.flat_map(lambda x: n.map(lambda y: x + y))  # Optional()
+squared1: Optional[Int] = a.map(lambda x: x * x)                    # Optional(4)
+squared2: Optional[Int] = n.map(lambda x: x * x)                    # Optional()
+sum1: Optional[Int] = a.flat_map(lambda x: b.map(lambda y: x + y))  # Optional(5)
+sum2: Optional[Int] = a.flat_map(lambda x: n.map(lambda y: x + y))  # Optional()
 
-unwrapped = a.unwrapped
+unwrapped = a.force_unwrapping()
 try:
-    _ = n.unwrapped  # UnwrappingError
-except k.UnwrappingError:
+    _ = n.force_unwrapping()  # UnwrappingError
+    self.fail('Never reaches here.')
+except NilError:
     print('Reaches here.')
 ```
 
