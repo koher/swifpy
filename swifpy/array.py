@@ -2,9 +2,21 @@ import typing as tp
 import functools as ft
 import builtins as py
 from .optional import Optional, optional
+from .types import Bool, Int
 
 T = tp.TypeVar('T')
 U = tp.TypeVar('U')
+
+
+def python_cmp(swift_cmp: tp.Callable[[T, T], Bool]) -> tp.Callable[[T, T], Int]:
+    def cmp(x: T, y: T) -> Int:
+        if swift_cmp(x, y):
+            return -1
+        elif x == y:
+            return 0
+        else:
+            return 1
+    return cmp
 
 
 class Array(tp.Generic[T], tp.Iterable[T]):
@@ -44,6 +56,18 @@ class Array(tp.Generic[T], tp.Iterable[T]):
 
     def remove_all(self) -> None:
         self._values.clear()
+
+    def sort(self, by: tp.Optional[tp.Callable[[T, T], Bool]] = None):
+        if by:
+            self._values.sort(key=ft.cmp_to_key(python_cmp(by)))
+        else:
+            self._values.sort()
+
+    def sorted(self, by: tp.Optional[tp.Callable[[T, T], Bool]] = None) -> 'Array[T]':
+        if by:
+            return Array(sorted(self._values, key=ft.cmp_to_key(python_cmp(by))))
+        else:
+            return Array(sorted(self._values))
 
     def __get(self, index: int) -> Optional[T]:
         try:
