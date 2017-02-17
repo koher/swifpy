@@ -16,6 +16,14 @@ class Dictionary(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
     def __setitem__(self, key: K, value: V) -> None:
         self._entries[key] = value
 
+    @property
+    def keys(self) -> tp.Iterable[K]:
+        return self._entries.keys()
+
+    @property
+    def values(self) -> tp.Iterable[V]:
+        return self._entries.values()
+
     def for_each(self, body: tp.Callable[[K, V], None]) -> None:
         for key, value in self._entries.items():
             body(key, value)
