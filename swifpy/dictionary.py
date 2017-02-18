@@ -1,5 +1,4 @@
 import typing as tp
-import builtins as py
 from .optional import Optional, optional, String
 
 K = tp.TypeVar('K')
@@ -7,8 +6,14 @@ V = tp.TypeVar('V')
 
 
 class Dictionary(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
-    def __init__(self, entries: tp.Dict[K, V]) -> None:
-        self._entries: tp.Dict[K, V] = py.dict(entries)
+    @tp.overload
+    def __init__(self, entries: tp.Dict[K, V]) -> None: pass
+
+    @tp.overload
+    def __init__(self, entries: tp.Iterable[tp.Tuple[K, V]]) -> None: pass
+
+    def __init__(self, entries) -> None:
+        self._entries: tp.Dict[K, V] = dict(entries)
 
     def __getitem__(self, key: K) -> Optional[V]:
         return optional(self._entries.get(key))
