@@ -1,7 +1,7 @@
 import typing as tp
 import functools as ft
 import builtins as py
-from .optional import Optional, optional
+from .optional import Optional, optional, Some
 from .types import Bool, Int
 
 T = tp.TypeVar('T')
@@ -29,8 +29,14 @@ class Array(tp.Generic[T], tp.Iterable[T]):
     def filter(self, is_included: tp.Callable[[T], bool]) -> 'Array[T]':
         return Array(filter(is_included, self._values))
 
-    def flat_map(self, transform: tp.Callable[[T], 'Array[U]']) -> 'Array[U]':
-        return self.map(lambda x: transform(x)).reduce(Array[U]([]), lambda l, x: l + x)
+    @tp.overload
+    def flat_map(self, transform: tp.Callable[[T], 'Array[U]']) -> 'Array[U]': pass
+
+    @tp.overload
+    def flat_map(self, transform: tp.Callable[[T], Optional[U]]) -> 'Array[U]': pass
+
+    def flat_map(self, transform):
+        return self.map(lambda x: transform(x)).reduce(Array[U]([]), lambda l, x: l + as_array(x))
 
     def reduce(self, initial: U, combine: tp.Callable[[U, T], U]) -> U:
         return ft.reduce(combine, self._values, initial)
@@ -129,3 +135,13 @@ class Array(tp.Generic[T], tp.Iterable[T]):
 
     def __repr__(self) -> str:
         return repr(self._values)
+
+
+def as_array(value: tp.Union[Array[T], Optional[T]]) -> Array[T]:
+    if isinstance(value, Array):
+        return value
+    else:
+        if isinstance(value, Some):
+            return Array([value.x])
+        else:
+            return Array([])
