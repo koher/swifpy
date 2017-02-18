@@ -29,6 +29,10 @@ class Some(tp.Generic[T]):
         else:
             return self._value
 
+    @property
+    def o(self) -> tp.Optional[T]:
+        return self._value
+
     def map(self, transform: tp.Callable[[T], U]) -> 'Some[U]':
         return Some(transform(self._value))
 
@@ -68,6 +72,10 @@ class Nil:
 
     def qq(self, value):
         return value
+
+    @property
+    def o(self) -> tp.Optional[T]:
+        return None
 
     def map(self, transform: tp.Callable[[T], U]) -> 'Nil':
         return self
