@@ -1,6 +1,6 @@
 import typing as tp
 import builtins as py
-from .optional import Optional, optional
+from .optional import Optional, optional, String
 
 K = tp.TypeVar('K')
 V = tp.TypeVar('V')
@@ -37,3 +37,7 @@ class Dictionary(tp.Generic[K, V], tp.Iterable[tp.Tuple[K, V]]):
 
     def __iter__(self) -> tp.Iterator[tp.Tuple[K, V]]:
         return self._entries.items().__iter__()
+
+    def __repr__(self) -> String:
+        return repr(self._entries)
+

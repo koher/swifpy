@@ -127,5 +127,5 @@ class Array(tp.Generic[T], tp.Iterable[T]):
     def __eq__(self, other: 'Array[T]') -> bool:
         return self._values == other._values
 
-    def __str__(self) -> str:
-        return self._values.__str__()
+    def __repr__(self) -> str:
+        return repr(self._values)

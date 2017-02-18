@@ -44,7 +44,7 @@ class Some(tp.Generic[T]):
     def __bool__(self):
         return True
 
-    def __str__(self) -> String:
+    def __repr__(self) -> String:
         return 'Optional(%s)' % self._value
 
 
@@ -81,7 +81,7 @@ class Nil:
     def __bool__(self):
         return False
 
-    def __str__(self) -> String:
+    def __repr__(self) -> String:
         return 'Nil'
 
 
