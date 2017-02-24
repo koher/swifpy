@@ -104,7 +104,7 @@ class NilError(Exception):
 
 
 def optional(value: tp.Optional[T]) -> Optional[T]:
-    if value:
-        return Some(value)
-    else:
+    if value is None:
         return Nil
+    else:
+        return Some(value)
